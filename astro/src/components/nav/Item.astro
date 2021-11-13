@@ -1,0 +1,33 @@
+---
+export interface Props {
+  title: string
+  href: string
+  first?: boolean
+  active?: boolean
+}
+
+const { title, href, first = false, active = false } = Astro.props
+const classes = `
+  md:inline-block
+  py-3
+  font-nav
+  transition-colors
+  duration-150
+  ease-out
+  leading-8
+  ${first
+    ? `md:mr-5 text-xl`
+    : `md:mx-1 md:px-4`
+  }
+  ${active
+    ? `underline`
+    : ''}
+`
+---
+<li class="md:inline-block xs:block">
+  <a
+    class={classes}
+    href={href}
+    title={title}
+  ><slot /></a>
+</li>

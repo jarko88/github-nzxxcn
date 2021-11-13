@@ -1,0 +1,29 @@
+{
+  "name": "arnorhs.dev",
+  "version": "2.0.0",
+  "author": "arnorhs <arnorhs@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "astro",
+      "posts",
+      "resoc"
+    ]
+  },
+  "scripts": {
+    "posts": "yarn workspace @arnorhs/posts",
+    "astro": "yarn workspace @arnorhs/astro",
+    "resoc": "yarn workspace @arnorhs/resoc",
+    "gen:posts": "TARGET_DIR=astro/src/gen yarn posts gen",
+    "build:posts": "yarn posts build",
+    "build:resoc": "TARGET_DIR=resoc/dist yarn resoc build",
+    "export": "yarn gen:posts && yarn build:posts && yarn build:resoc && yarn astro build && cp -rf resoc/dist astro/dist/og-image",
+    "dev": "yarn gen:posts && yarn astro dev"
+  },
+  "dependencies": {},
+  "resolutions": {
+    "highlight.js": "^10.4.1",
+    "path-parse": "^1.0.7"
+  }
+}

@@ -1,0 +1,57 @@
+---
+import { dateFormat, Post } from '$lib'
+import Heading from './Heading.astro'
+
+const post = Astro.props.post as Post
+const featured = Astro.props.featured ?? false
+const showByline = Astro.props.showByline ?? !featured
+
+export interface Props {
+  post: Post
+  featured?: boolean
+  showByline?: boolean
+}
+
+---
+<style>
+.featured-transition {
+  display: block;
+  transition-property: transform opacity;
+  animation: splash .2s normal forwards ease-in-out
+}
+
+@keyframes splash {
+  from {
+    perspective-origin: 20%;
+    transform: perspective(100px) translateX(-200px) translateZ(-40px);
+    opacity: 0;
+  }
+
+  20% {
+    perspective-origin: 20%;
+    transform: perspective(100px) translateX(-200px) translateZ(-40px);
+    opacity: 0;
+  }
+
+  to {
+    perspective-origin: 20%;
+    transform: perspective(80px) translate3d(-20px, 0, -20px) rotate3d(0, 2, 1, 2deg);
+    opacity: 1;
+  }
+}
+</style>
+<article class={`font-serif ${featured ? 'pt-6' : ''}`}>
+  <Heading tag='h2' variation={featured ? 'big' : 'dense'}>
+    <a class={featured ? 'featured-transition' : ''} href={post.url}>{post.meta.title || 'missing title'}</a>
+  </Heading>
+
+  {showByline && (
+    <p class="mt-1 md:mt-0 text-xs" aria-label="published date">{dateFormat(post.date)}</p>
+  )}
+
+  <p class={`text-lg md:text-base ${featured ? 'md:w-2/4 ' : ''}`}>{post.meta.summary}</p>
+
+  <p>
+    <a href={post.url}>Read on</a>
+  </p>
+</article>
